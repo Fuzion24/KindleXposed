@@ -16,3 +16,7 @@ I/Xposed  ( 8016): Pid: NtGV8jul
 I/Xposed  ( 8016): Pid: ayStegR3
 I/Xposed  ( 8016): Pid: i6wjb0NJ
 ```
+
+Work on the mobi parser is partially complete.
+
+Decryption work for the mobi file - not started.
