@@ -5,7 +5,7 @@ public enum EXTHRecordType{
     AUTHOR(100,"author"),
     PUBLISHER(101, "publisher"),
     IMPRINT(102, "imprint"),
-    DESCRIPTIOIN(103, "description"),
+    DESCRIPTION(103, "description"),
     ISBN(104, "ISBN"),
     SUBJECT(105, "subject"),
     PUBLISHING_DATE(106, "publishing date"),
@@ -29,5 +29,33 @@ public enum EXTHRecordType{
     EXTHRecordType(int n, String desc) { value = n; name = desc; }
     public final int value;
     public final String name;
+
+    public static EXTHRecordType fromInt(int v) throws Exception {
+       switch(v){
+           case 100: return AUTHOR;
+           case 101: return PUBLISHER;
+           case 102: return AUTHOR;
+           case 103: return DESCRIPTION;
+           case 104: return ISBN;
+           case 105: return SUBJECT;
+           case 106: return PUBLISHING_DATE;
+           case 107: return REVIEW;
+           case 108: return CONTRIBUTOR;
+           case 109: return RIGHTS;
+           case 110: return SUBJECT_CODE;
+           case 111: return TYPE;
+           case 112: return SOURCE;
+           case 113: return ASIN;
+           case 114: return VER_NUM;
+           case 118: return RETAIL_PRICE;
+           case 119: return RETAIL_CUR;
+           case 200: return DICT_SHORT_NAME;
+           case 404: return TTS_OFF;
+           case 501: return CDE_TYPES;
+           case 503: return UPDATED_TITLE;
+           case 504: return ASIN2;
+           default: throw new Exception("Unknown EXTHRecord: " + v);
+       }
+    }
 
 }

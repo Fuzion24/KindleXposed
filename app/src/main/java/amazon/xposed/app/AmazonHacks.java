@@ -1,12 +1,12 @@
 package amazon.xposed.app;
 
-import android.util.Log;
-
-import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedBridge;
+import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
@@ -15,18 +15,20 @@ import static de.robv.android.xposed.XposedHelpers.findClass;
 public class AmazonHacks implements IXposedHookLoadPackage {
     private String TAG = "AmazonSecurityPids";
 
+    private static final String PACKAGE_NAME = AmazonHacks.class.getPackage().getName();
+    XSharedPreferences savePrefs = new XSharedPreferences(PACKAGE_NAME);
+
+
     public void handleLoadPackage(final LoadPackageParam lpparam) throws Throwable {
         if (!lpparam.packageName.equals("com.amazon.kindle"))
             return;
 
-        hookAllMethods(findClass("com.amazon.system.security.Security", lpparam.classLoader), "getPids",  new XC_MethodHook(){
+        hookAllMethods(findClass("com.amazon.system.security.Security", lpparam.classLoader), "getPids", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                String [] secPids = (String[])param.getResult();
-                for(String sPid : secPids){
-                    XposedBridge.log("Amazon kindle security pid: " + sPid);
-                }
-                XposedBridge.log("abstract getPIDS called!");
+                String[] secPids = (String[]) param.getResult();
+                Set<String> secPidsSet = new HashSet<String>(Arrays.asList(secPids));
+                savePrefs.edit().putStringSet("KindleSecurityPids", secPidsSet);
             }
         });
 

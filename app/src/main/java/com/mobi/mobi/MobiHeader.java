@@ -125,4 +125,16 @@ class MobiHeader{
         mh.indxRecordOffset = as.readInt();
         return mh;
     }
+
+    public int getFullNameOffset() {
+        return fullNameOffset;
+    }
+
+    public boolean hasEXTHHeader(){
+        return (EXTHflags & 0x40) > 0;
+    }
+
+    public int getFullNameLength() {
+        return fullNameLength;
+    }
 }

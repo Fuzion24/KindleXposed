@@ -1,5 +1,6 @@
 package com.mobi;
 
+import java.io.File;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.LongBuffer;
@@ -7,6 +8,10 @@ import java.nio.LongBuffer;
 public class ArraySlice extends RandomAccessFile {
     public ArraySlice(String name, String mode) throws Exception{
         super(name,mode);
+    }
+
+    public ArraySlice(File f, String mode) throws Exception{
+        super(f,mode);
     }
 
     public String readString(long offset, long size) throws Exception {

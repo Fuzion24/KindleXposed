@@ -2,15 +2,16 @@ package com.mobi.mobi;
 
 import com.mobi.ArraySlice;
 
-import java.util.*;
+import java.io.File;
 
 import palm.database.PalmDatabaseFormat;
 import palm.database.PalmRecordInfoEntry;
 
 public class MobiBook extends PalmDatabaseFormat {
 
-    private MobiHeader mHeader = null;
-
+    private MobiHeader mHeader;
+    private String mName;
+    private EXTHBlock exthBlock;
 
 /*
   https://github.com/kroo/mobi-python/blob/master/mobi/__init__.py
@@ -21,6 +22,10 @@ public class MobiBook extends PalmDatabaseFormat {
     public static MobiBook parse(String filename) throws Exception{
         return parse(new ArraySlice(filename, "r"));
     }
+    public static MobiBook parse(File f) throws Exception {
+        return parse(new ArraySlice(f, "r"));
+    }
+
      public static MobiBook parse(ArraySlice as) throws Exception{
          MobiBook mb = new MobiBook();
          PalmDatabaseFormat.parse(as,mb);
@@ -29,9 +34,14 @@ public class MobiBook extends PalmDatabaseFormat {
          as.seek(record0.getDataOffset());
 
          mb.mHeader = MobiHeader.parse(as);
+
+         if(mb.mHeader.hasEXTHHeader()){
+             as.seek(268);
+             mb.exthBlock = EXTHBlock.parse(as);
+         }
+
          return mb;
      }
-
 
     public static String bytesToHex(byte[] bytes) {
         final char[] hexArray = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
@@ -45,18 +55,10 @@ public class MobiBook extends PalmDatabaseFormat {
         return new String(hexChars);
     }
 
-
-
-    private List<byte[]> validatePins(List<String> pids){
-        List<byte[]> vPids = new ArrayList<byte[]>();
-        for(String s : pids)
-            vPids.add(validatePid(s));
-        return vPids;
+    public String getName(){
+      return "";
     }
 
-    private byte[] validatePid(String pid){
-        return pid.getBytes();
-    }
 
 }
 
