@@ -35,8 +35,13 @@ public class MobiBook extends PalmDatabaseFormat {
 
          mb.mHeader = MobiHeader.parse(as);
 
+         /*
+         ➜  xxd B0026OR2HM_EBOK.prc | grep EXTH
+            0001580: 0000 0284 0000 024c 4558 5448 0000 0514  .......LEXTH....
+
+          */
          if(mb.mHeader.hasEXTHHeader()){
-             as.seek(268);
+             as.seek(1592);
              mb.exthBlock = EXTHBlock.parse(as);
          }
 
@@ -56,7 +61,12 @@ public class MobiBook extends PalmDatabaseFormat {
     }
 
     public String getName(){
-      return "";
+      EXTHRecord rec = exthBlock.findRecordOfType(EXTHRecordType.UPDATED_TITLE);
+      if(rec == null)
+         return "----";
+      String name = rec.getUTF8String();
+      return name == null ? "" : name;
+
     }
 
 

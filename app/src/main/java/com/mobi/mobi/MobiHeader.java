@@ -61,6 +61,7 @@ class MobiHeader{
     private int unknown6;
     private int extraRecordDataFlags;
     private int indxRecordOffset;
+    private byte[] garbage2 = new byte[24];
 
 
 
@@ -123,6 +124,7 @@ class MobiHeader{
         mh.unknown6 = as.readInt();
         mh.extraRecordDataFlags = as.readInt();
         mh.indxRecordOffset = as.readInt();
+        as.readFully(mh.garbage2);
         return mh;
     }
 

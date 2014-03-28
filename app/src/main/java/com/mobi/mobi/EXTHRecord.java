@@ -27,4 +27,12 @@ public class EXTHRecord {
     public EXTHRecordType getRecordType(){
         return recordType;
     }
+
+    public String getUTF8String() {
+      try{
+          return new String(mRecordData, "UTF-8");
+      }catch(Exception e){
+          return null;
+      }
+    }
 }

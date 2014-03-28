@@ -23,4 +23,11 @@ public class EXTHBlock {
     public List<EXTHRecord> getRecords() {
         return records;
     }
+
+    public EXTHRecord findRecordOfType(EXTHRecordType type){
+        for(EXTHRecord rec: records)
+            if(rec.getRecordType() == type)
+                return rec;
+        return null; //Nothing found
+    }
 }

@@ -23,7 +23,8 @@ public enum EXTHRecordType{
     TTS_OFF(404, "TTS off"),
     CDE_TYPES(501, "CDE type"),
     UPDATED_TITLE(503, "updated title"),
-    ASIN2(504, "ASIN");
+    ASIN2(504, "ASIN"),
+    UNKNOWN(-1, "UNKNOWN");
 
 
     EXTHRecordType(int n, String desc) { value = n; name = desc; }
@@ -54,7 +55,7 @@ public enum EXTHRecordType{
            case 501: return CDE_TYPES;
            case 503: return UPDATED_TITLE;
            case 504: return ASIN2;
-           default: throw new Exception("Unknown EXTHRecord: " + v);
+           default: return UNKNOWN; //throw new Exception("Unknown EXTHRecord: " + v);
        }
     }
 
